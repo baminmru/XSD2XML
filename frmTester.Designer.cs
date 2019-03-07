@@ -36,6 +36,8 @@
             this.txtXSLT = new System.Windows.Forms.TextBox();
             this.opf = new System.Windows.Forms.OpenFileDialog();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.txtGenPaths = new System.Windows.Forms.TextBox();
+            this.cmdCLR = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.cmdXML = new System.Windows.Forms.Button();
@@ -61,12 +63,10 @@
             this.cmdMap = new System.Windows.Forms.Button();
             this.label8 = new System.Windows.Forms.Label();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
             this.label7 = new System.Windows.Forms.Label();
             this.txtErrPath = new System.Windows.Forms.TextBox();
             this.txtHtmlPath = new System.Windows.Forms.TextBox();
-            this.tabPage4 = new System.Windows.Forms.TabPage();
-            this.txtGenPaths = new System.Windows.Forms.TextBox();
-            this.cmdCLR = new System.Windows.Forms.Button();
             this.groupXML.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -132,6 +132,31 @@
             // toolTip1
             // 
             this.toolTip1.Popup += new System.Windows.Forms.PopupEventHandler(this.toolTip1_Popup);
+            // 
+            // txtGenPaths
+            // 
+            this.txtGenPaths.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtGenPaths.Location = new System.Drawing.Point(7, 3);
+            this.txtGenPaths.MaxLength = 2000000;
+            this.txtGenPaths.Multiline = true;
+            this.txtGenPaths.Name = "txtGenPaths";
+            this.txtGenPaths.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.txtGenPaths.Size = new System.Drawing.Size(935, 106);
+            this.txtGenPaths.TabIndex = 0;
+            this.toolTip1.SetToolTip(this.txtGenPaths, "Пути для генерации полей");
+            // 
+            // cmdCLR
+            // 
+            this.cmdCLR.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmdCLR.Location = new System.Drawing.Point(960, 3);
+            this.cmdCLR.Name = "cmdCLR";
+            this.cmdCLR.Size = new System.Drawing.Size(25, 106);
+            this.cmdCLR.TabIndex = 1;
+            this.cmdCLR.Text = "CLR";
+            this.toolTip1.SetToolTip(this.cmdCLR, "Очистить пути для генерации");
+            this.cmdCLR.UseVisualStyleBackColor = true;
+            this.cmdCLR.Click += new System.EventHandler(this.cmdCLR_Click);
             // 
             // label2
             // 
@@ -427,6 +452,17 @@
             this.tabPage3.Text = "Готовый XML";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
+            // tabPage4
+            // 
+            this.tabPage4.Controls.Add(this.cmdCLR);
+            this.tabPage4.Controls.Add(this.txtGenPaths);
+            this.tabPage4.Location = new System.Drawing.Point(4, 29);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Size = new System.Drawing.Size(986, 112);
+            this.tabPage4.TabIndex = 3;
+            this.tabPage4.Text = "Пути для генерации";
+            this.tabPage4.UseVisualStyleBackColor = true;
+            // 
             // label7
             // 
             this.label7.AutoSize = true;
@@ -461,41 +497,6 @@
             this.txtHtmlPath.Size = new System.Drawing.Size(738, 26);
             this.txtHtmlPath.TabIndex = 63;
             this.txtHtmlPath.DoubleClick += new System.EventHandler(this.txtHtmlPath_DoubleClick);
-            // 
-            // tabPage4
-            // 
-            this.tabPage4.Controls.Add(this.cmdCLR);
-            this.tabPage4.Controls.Add(this.txtGenPaths);
-            this.tabPage4.Location = new System.Drawing.Point(4, 29);
-            this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(986, 112);
-            this.tabPage4.TabIndex = 3;
-            this.tabPage4.Text = "Пути для генерации";
-            this.tabPage4.UseVisualStyleBackColor = true;
-            // 
-            // txtGenPaths
-            // 
-            this.txtGenPaths.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtGenPaths.Location = new System.Drawing.Point(7, 3);
-            this.txtGenPaths.Multiline = true;
-            this.txtGenPaths.Name = "txtGenPaths";
-            this.txtGenPaths.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtGenPaths.Size = new System.Drawing.Size(935, 106);
-            this.txtGenPaths.TabIndex = 0;
-            this.toolTip1.SetToolTip(this.txtGenPaths, "Пути для генерации полей");
-            // 
-            // cmdCLR
-            // 
-            this.cmdCLR.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdCLR.Location = new System.Drawing.Point(960, 3);
-            this.cmdCLR.Name = "cmdCLR";
-            this.cmdCLR.Size = new System.Drawing.Size(25, 106);
-            this.cmdCLR.TabIndex = 1;
-            this.cmdCLR.Text = "CLR";
-            this.toolTip1.SetToolTip(this.cmdCLR, "Очистить пути для генерации");
-            this.cmdCLR.UseVisualStyleBackColor = true;
-            this.cmdCLR.Click += new System.EventHandler(this.cmdCLR_Click);
             // 
             // frmTester
             // 
