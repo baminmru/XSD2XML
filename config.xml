@@ -3,6 +3,11 @@
 	<Patterns>
   
   <Pattern>
+    <Key>P(T(\d+[hH])?(\d+[mM])?(\d+(\.\d+)?[sS])?)?</Key>
+    <Samples>PT1H;PT1M;PT15M;</Samples>
+  </Pattern>
+  
+  <Pattern>
     <Key>P(\d+[mM])?(\d+[wW])?(\d+[dD])?</Key>
     <Samples>P1M;P1M2D;P1W;P1D;P2W3D;P2W5D</Samples>
   </Pattern>

@@ -64,9 +64,13 @@
             this.label8 = new System.Windows.Forms.Label();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.cmdLoadGenPath = new System.Windows.Forms.Button();
+            this.tvPath = new System.Windows.Forms.TreeView();
             this.label7 = new System.Windows.Forms.Label();
             this.txtErrPath = new System.Windows.Forms.TextBox();
             this.txtHtmlPath = new System.Windows.Forms.TextBox();
+            this.cmdClearTV = new System.Windows.Forms.Button();
             this.groupXML.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -75,6 +79,7 @@
             this.groupBox1.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.tabPage4.SuspendLayout();
+            this.tabPage5.SuspendLayout();
             this.SuspendLayout();
             // 
             // wb
@@ -142,7 +147,7 @@
             this.txtGenPaths.Multiline = true;
             this.txtGenPaths.Name = "txtGenPaths";
             this.txtGenPaths.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtGenPaths.Size = new System.Drawing.Size(935, 106);
+            this.txtGenPaths.Size = new System.Drawing.Size(947, 106);
             this.txtGenPaths.TabIndex = 0;
             this.toolTip1.SetToolTip(this.txtGenPaths, "Пути для генерации полей");
             // 
@@ -341,6 +346,7 @@
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Controls.Add(this.tabPage4);
+            this.tabControl1.Controls.Add(this.tabPage5);
             this.tabControl1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.tabControl1.Location = new System.Drawing.Point(12, 80);
             this.tabControl1.Name = "tabControl1";
@@ -463,6 +469,40 @@
             this.tabPage4.Text = "Пути для генерации";
             this.tabPage4.UseVisualStyleBackColor = true;
             // 
+            // tabPage5
+            // 
+            this.tabPage5.Controls.Add(this.cmdClearTV);
+            this.tabPage5.Controls.Add(this.cmdLoadGenPath);
+            this.tabPage5.Controls.Add(this.tvPath);
+            this.tabPage5.Location = new System.Drawing.Point(4, 29);
+            this.tabPage5.Name = "tabPage5";
+            this.tabPage5.Size = new System.Drawing.Size(986, 112);
+            this.tabPage5.TabIndex = 4;
+            this.tabPage5.Text = "Настройка путей";
+            this.tabPage5.UseVisualStyleBackColor = true;
+            // 
+            // cmdLoadGenPath
+            // 
+            this.cmdLoadGenPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmdLoadGenPath.Location = new System.Drawing.Point(709, 9);
+            this.cmdLoadGenPath.Name = "cmdLoadGenPath";
+            this.cmdLoadGenPath.Size = new System.Drawing.Size(259, 38);
+            this.cmdLoadGenPath.TabIndex = 1;
+            this.cmdLoadGenPath.Text = "Загрузить пути в дерево";
+            this.cmdLoadGenPath.UseVisualStyleBackColor = true;
+            this.cmdLoadGenPath.Click += new System.EventHandler(this.cmdLoadGenPath_Click);
+            // 
+            // tvPath
+            // 
+            this.tvPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tvPath.CheckBoxes = true;
+            this.tvPath.Location = new System.Drawing.Point(5, 5);
+            this.tvPath.Name = "tvPath";
+            this.tvPath.Size = new System.Drawing.Size(661, 104);
+            this.tvPath.TabIndex = 0;
+            this.tvPath.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.tvPath_AfterCheck);
+            // 
             // label7
             // 
             this.label7.AutoSize = true;
@@ -498,6 +538,17 @@
             this.txtHtmlPath.TabIndex = 63;
             this.txtHtmlPath.DoubleClick += new System.EventHandler(this.txtHtmlPath_DoubleClick);
             // 
+            // cmdClearTV
+            // 
+            this.cmdClearTV.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmdClearTV.Location = new System.Drawing.Point(709, 53);
+            this.cmdClearTV.Name = "cmdClearTV";
+            this.cmdClearTV.Size = new System.Drawing.Size(259, 35);
+            this.cmdClearTV.TabIndex = 2;
+            this.cmdClearTV.Text = "Удалить всё";
+            this.cmdClearTV.UseVisualStyleBackColor = true;
+            this.cmdClearTV.Click += new System.EventHandler(this.cmdClearTV_Click);
+            // 
             // frmTester
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -531,6 +582,7 @@
             this.tabPage3.ResumeLayout(false);
             this.tabPage4.ResumeLayout(false);
             this.tabPage4.PerformLayout();
+            this.tabPage5.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -575,5 +627,9 @@
         private System.Windows.Forms.TabPage tabPage4;
         private System.Windows.Forms.TextBox txtGenPaths;
         private System.Windows.Forms.Button cmdCLR;
+        private System.Windows.Forms.TabPage tabPage5;
+        private System.Windows.Forms.Button cmdLoadGenPath;
+        private System.Windows.Forms.TreeView tvPath;
+        private System.Windows.Forms.Button cmdClearTV;
     }
 }

@@ -51,6 +51,22 @@ namespace XSD2XML
 
         private XMLBuilder xb;
 
+
+        private  void CollectChildPath(List<string> genpaths, TreeNode n)
+        {
+            foreach (TreeNode n2 in n.Nodes)
+            {
+                if (n2.Checked)
+                {
+                    if (!genpaths.Contains((String)(n2.Tag)))
+                    {
+                        genpaths.Add((String)(n2.Tag));
+                    }
+                    CollectChildPath(genpaths, n2);
+                }
+            }
+        }
+
         private void cmdRun_Click(object sender, EventArgs e)
         {
             if (txtXSLT.Text == "")
@@ -64,14 +80,18 @@ namespace XSD2XML
                 MessageBox.Show("Надо задать путь к XSD файлу");
                 return;
             }
+
+            this.UseWaitCursor = true;
+            Cursor.Current = Cursors.WaitCursor;
+
             xb = new XMLBuilder();
             FileInfo fi = new FileInfo(txtXSD.Text);
-           
-            string OutputFolder= fi.DirectoryName;
+
+            string OutputFolder = fi.DirectoryName;
 
             if (Properties.Settings.Default.OutputFolder != "")
             {
-                if(Directory.Exists(Properties.Settings.Default.OutputFolder))
+                if (Directory.Exists(Properties.Settings.Default.OutputFolder))
                 {
                     OutputFolder = Properties.Settings.Default.OutputFolder;
                 }
@@ -79,11 +99,42 @@ namespace XSD2XML
 
             xb.XSDPath = txtXSD.Text;
             xb.OutFolder = OutputFolder;
-            
-            string xmlPath = xb.BuildXML( txtGenPaths.Text.Trim());
+
+
+            List<string> genpaths = new List<string>();
+            String sPaths = "";
+            if(tvPath.Nodes.Count > 0)
+            {
+                foreach(TreeNode n in tvPath.Nodes)
+                {
+                    if (n.Checked)
+                    {
+                        if (!genpaths.Contains((String)(n.Tag)))
+                        {
+                            genpaths.Add((String)(n.Tag));
+                        }
+                        CollectChildPath(genpaths, n);
+                    }
+                }
+
+                foreach( string s in genpaths)
+                {
+                    sPaths += (s +"\r");
+                }
+                
+            }
+            else
+            {
+                sPaths = txtGenPaths.Text.Trim();
+            }
+
+            System.Diagnostics.Debug.Print(sPaths);
+
+
+            string xmlPath = xb.BuildXML(sPaths);
             txtGen1.Text = xmlPath;
-            
-            string htmlPath = OutputFolder + "\\"+xb.root.Name +"_" + DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".html";
+
+            string htmlPath = OutputFolder + "\\" + xb.root.Name + "_" + DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".html";
             string errPath = OutputFolder + "\\" + xb.root.Name + "_ERROR_" + DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".txt";
 
             var input = new FileInfo(xmlPath);
@@ -109,10 +160,13 @@ namespace XSD2XML
                 destination.XmlDocument.Save(output.FullName);
 
                 CheckHTML(output.FullName, errPath);
-            }catch(System.Exception ex)
+            } catch (System.Exception ex)
             {
                 txtError.Text = ex.Message;
             }
+
+            this.UseWaitCursor = false;
+            Cursor.Current = Cursors.Default;
 
         }
 
@@ -170,7 +224,7 @@ namespace XSD2XML
                             eStop = pos + gap;
                             if (eStart < 0) eStart = 0;
                             if (eStop >= sHtml.Length) eStop = sHtml.Length - 1;
-                            sError.AppendLine("{"+ seek +"}  ..." + sHtml.Substring(eStart, eStop - eStart + 1) +"...");
+                            sError.AppendLine("{" + seek + "}  ..." + sHtml.Substring(eStart, eStop - eStart + 1) + "...");
                             pos = sHtml.IndexOf(seek, pos + 1);
                         }
                     } while (pos >= 0);
@@ -311,7 +365,7 @@ namespace XSD2XML
             */
 
 
-            foreach (string re in XMLBuilder.RegularExpressions )
+            foreach (string re in XMLBuilder.RegularExpressions)
             {
                 Regex regex = new Regex(re);
                 MatchCollection matches = regex.Matches(sHtml, bodyPos);
@@ -402,7 +456,7 @@ namespace XSD2XML
             }
             wb.Navigate(htmlPath);
             txtHtmlPath.Text = htmlPath;
-            
+
         }
 
 
@@ -433,7 +487,7 @@ namespace XSD2XML
             opf.CheckFileExists = true;
             opf.FileName = "";
             opf.InitialDirectory = Properties.Settings.Default.OutputFolder;
-            
+
 
             if (opf.ShowDialog() == DialogResult.OK)
             {
@@ -454,7 +508,8 @@ namespace XSD2XML
                 MessageBox.Show("Надо задать путь к XML файлу");
                 return;
             }
-
+            this.UseWaitCursor = true;
+            Cursor.Current = Cursors.WaitCursor;
             xb = new XMLBuilder();
             FileInfo fi = new FileInfo(txtXML.Text);
 
@@ -495,10 +550,12 @@ namespace XSD2XML
                 destination.XmlDocument.Save(output.FullName);
 
                 CheckHTML(output.FullName, errPath);
-            }catch(System.Exception ex)
+            } catch (System.Exception ex)
             {
                 txtError.Text = ex.Message;
             }
+            this.UseWaitCursor = false;
+            Cursor.Current = Cursors.Default;
         }
 
         private void cmdPatchXSLT_Click(object sender, EventArgs e)
@@ -511,7 +568,7 @@ namespace XSD2XML
             string xslt;
             xslt = File.ReadAllText(txtXSLT.Text);
             xslt = xslt.Replace("/rm:", "/*:");
-            File.WriteAllText(txtXSLT.Text,xslt);
+            File.WriteAllText(txtXSLT.Text, xslt);
         }
 
         private void cmdMap_Click(object sender, EventArgs e)
@@ -541,6 +598,9 @@ namespace XSD2XML
                 MessageBox.Show("Надо задать путь к файлу настроек");
                 return;
             }
+            this.UseWaitCursor = true;
+            Cursor.Current = Cursors.WaitCursor;
+
             xb = new XMLBuilder();
             FileInfo fi = new FileInfo(txtMap.Text);
 
@@ -555,7 +615,7 @@ namespace XSD2XML
             }
 
             xb.OutFolder = OutputFolder;
-            
+
             using (var stream = System.IO.File.OpenRead(txtMap.Text))
             {
                 var serializer = new XmlSerializer(typeof(xsdItem));
@@ -564,7 +624,7 @@ namespace XSD2XML
 
             xb.root.RestoreParent();
 
-            string xmlPath = xb.BuildXML(xb.root,txtGenPaths.Text.Trim());
+            string xmlPath = xb.BuildXML(xb.root, txtGenPaths.Text.Trim());
             txtGen2.Text = xmlPath;
             string htmlPath = OutputFolder + "\\" + xb.root.Name + "_" + DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".html";
             string errPath = OutputFolder + "\\" + xb.root.Name + "_ERROR_" + DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".txt";
@@ -602,11 +662,13 @@ namespace XSD2XML
 
 
             }
-            catch(System.Exception ex)
+            catch (System.Exception ex)
             {
                 txtError.Text = ex.Message;
             }
-            
+
+            this.UseWaitCursor = false;
+            Cursor.Current = Cursors.Default;
         }
 
         private void cmdCLR_Click(object sender, EventArgs e)
@@ -648,5 +710,164 @@ namespace XSD2XML
         {
             System.Diagnostics.Process.Start(txtHtmlPath.Text);
         }
+
+        private void cmdLoadGenPath_Click(object sender, EventArgs e)
+        {
+            if (txtGenPaths.Text != "")
+            {
+
+                tvPath.Nodes.Clear();
+                String[] sep = { "\r\n" };
+                String[] paths = txtGenPaths.Text.Split(sep, StringSplitOptions.RemoveEmptyEntries);
+
+                NodeEntryCollection nec = new NodeEntryCollection();
+                Array.Sort(paths);
+
+                foreach (string s in paths)
+                {
+                    if(s.StartsWith("generic") || s.StartsWith("Form"))
+                    {
+                        System.Diagnostics.Debug.Print("Skip " + s);
+                    }
+                    else
+                    {
+                        nec.AddEntry(s.Replace("\r", "").Replace("\n", ""), 0);
+                    }
+                    
+                }
+
+
+                TreeNode tn;
+                foreach (NodeEntry ne in nec.Values)
+                {
+                    tn = new TreeNode(ne.Key);
+                    tvPath.Nodes.Add(tn);
+                    tn.Tag = ne.Data;
+                    AddPathChildren(tn, ne);
+                }
+
+                foreach (TreeNode c in tvPath.Nodes)
+                {
+                    CheckChildren(c, true);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Загрузите список путей на предыдущей вкладке.");
+            }
+        }
+    
+        private void AddPathChildren(TreeNode parent, NodeEntry ne)
+        {
+            TreeNode tn2;
+            foreach (NodeEntry ne2 in ne.Children.Values)
+            {
+                tn2 = new TreeNode(ne2.Key);
+                tn2.Tag = ne2.Data;
+                parent.Nodes.Add(tn2);
+                AddPathChildren(tn2, ne2);
+            }
+        }
+
+        private void tvPath_AfterCheck(object sender, TreeViewEventArgs e)
+        {
+            foreach (TreeNode c in e.Node.Nodes)
+            {
+                CheckChildren(c, e.Node.Checked);
+            }
+            
+        }
+
+        private void CheckChildren(TreeNode n, bool  check)
+        {
+            n.Checked = check;
+            foreach (TreeNode c in n.Nodes)
+            {
+                CheckChildren(c, n.Checked);
+            }
+        }
+
+        private void cmdClearTV_Click(object sender, EventArgs e)
+        {
+            tvPath.Nodes.Clear();
+        }
+    }
+
+}
+
+public class NodeEntryCollection : Dictionary<string,NodeEntry>
+{
+    public const string DefaultSeparator = "/";
+
+    public NodeEntryCollection(string separator = DefaultSeparator)
+    {
+        Separator = separator; // default separator
+    }
+
+    /// <summary>
+    /// Gets or sets the separator used to split the hierarchy.
+    /// </summary>
+    /// <value>
+    /// The separator.
+    /// </value>
+    public string Separator { get; set; }
+
+    public void AddEntry(string entry)
+    {
+        AddEntry(entry, 0);
+    }
+
+    /// <summary>
+    /// Parses and adds the entry to the hierarchy, creating any parent entries as required.
+    /// </summary>
+    /// <param name="entry">The entry.</param>
+    /// <param name="startIndex">The start index.</param>
+    public void AddEntry(string entry, int startIndex)
+    {
+        if (startIndex >= entry.Length)
+        {
+            return;
+        }
+
+        var endIndex = entry.IndexOf(Separator, startIndex);
+        if (endIndex == -1)
+        {
+            endIndex = entry.Length;
+        }
+        var key = entry.Substring(startIndex, endIndex - startIndex);
+        if (string.IsNullOrEmpty(key))
+        {
+            return;
+        }
+
+        NodeEntry item;
+        
+        
+        if (!this.ContainsKey(key))
+        {
+            
+            item = new NodeEntry(Separator) { Key = key };
+            Add(key,item);
+        }
+        else
+        {
+            item = this[key];
+        }
+        item.Data = entry;
+        // Now add the rest to the new item's children
+        item.Children.AddEntry(entry, endIndex + 1);
+    }
+}
+
+public class NodeEntry
+{
+    public string Key { get; set; }
+    public string Data { get; set; }
+
+    public NodeEntryCollection Children { get; set; }
+
+    public NodeEntry(string separator = NodeEntryCollection.DefaultSeparator)
+    {
+        Children = new NodeEntryCollection(separator);
     }
 }
