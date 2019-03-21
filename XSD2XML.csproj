@@ -121,6 +121,7 @@
     <Content Include="check-file.ico" />
     <Content Include="config.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="icon6.ico" />
   </ItemGroup>

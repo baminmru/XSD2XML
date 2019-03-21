@@ -518,6 +518,20 @@ namespace XSD2XML
                                 Cnt++;
                             }
 
+                            if (this.Type == "oe:DV_PROPORTION")
+                            {
+
+                                int v = Rnd.Next(1, Cnt + 1);
+                                sb.Append(vbCrLf + sShift + "\t<numerator>" + v.ToString() + "</numerator>");
+                                v = 1+Rnd.Next(1, Cnt + 1);
+                                sb.Append(vbCrLf + sShift + "\t<denominator>" + v.ToString() + "</denominator>");
+                                v = 1 + Rnd.Next(1, 3);
+                                sb.Append(vbCrLf + sShift + "\t<type>" + v.ToString() + "</type>");
+                                sb.Append(vbCrLf + sShift + "\t<precision>1</precision>");
+                                passValue = true;
+                                Cnt++;
+                            }
+
 
                             if (this.Type == "xs:string")
                             {
@@ -664,8 +678,21 @@ namespace XSD2XML
                                 passValue = true;
                                 Cnt++;
                             }
+                            //oe:DV_IDENTIFIER
+                            if (this.Type == "oe:DV_IDENTIFIER")
+                            {
+                                sb.Append(vbCrLf + sShift + "\t<id>" + Cnt.ToString() + "</id>" + vbCrLf + sShift);
+                                passValue = true;
+                                Cnt++;
+                            }
 
-
+                            if (this.Type == "oe:DV_PARSABLE")
+                            {
+                                sb.Append(vbCrLf + sShift + "\t<value>" + Cnt.ToString() + "</value>" + vbCrLf + sShift);
+                                sb.Append(vbCrLf + sShift + "\t<formalism>Proforma</formalism>" + vbCrLf + sShift);
+                                passValue = true;
+                                Cnt++;
+                            }
 
                             if (this.Type == "" && Children.Count == 0 && Choice.Count == 0)
                             {
@@ -805,7 +832,19 @@ namespace XSD2XML
                             passValue = true;
                             Cnt++;
                         }
+                        if (this.Type == "oe:DV_PROPORTION")
+                        {
 
+                            int v = Rnd.Next(1, Cnt + 1);
+                            sb.Append(vbCrLf + sShift + "\t<numerator>" + v.ToString() + "</numerator>");
+                            v = 1 + Rnd.Next(1, Cnt + 1);
+                            sb.Append(vbCrLf + sShift + "\t<denominator>" + v.ToString() + "</denominator>");
+                            v = 1 + Rnd.Next(1, 3);
+                            sb.Append(vbCrLf + sShift + "\t<type>" + v.ToString() + "</type>");
+                            sb.Append(vbCrLf + sShift + "\t<precision>1</precision>");
+                            passValue = true;
+                            Cnt++;
+                        }
 
                         if (this.Type == "xs:string")
                         {
