@@ -333,7 +333,7 @@ namespace XSD2XML
                     {
                         // допускаем только наличие  служебных  компонентов внутри пути 
                         if (tmp != "" && !(tmp.ToLower().StartsWith("любое_событие_as_point")
-                       || tmp.ToLower().StartsWith("любые_события") || tmp.ToLower() == "точка_во_времени") && tmp != "data" && tmp != "protocol" && tmp != "value")
+                       || tmp.ToLower().StartsWith("любое_событие_времени_as_point") || tmp.ToLower().StartsWith("любые_события") || tmp.ToLower() == "точка_во_времени") && tmp != "data" && tmp != "protocol" && tmp != "value")
                         {
                             return false;
                         }
@@ -990,7 +990,21 @@ namespace XSD2XML
                             passValue = true;
                             Cnt++;
                         }
+                        //oe:DV_IDENTIFIER
+                        if (this.Type == "oe:DV_IDENTIFIER")
+                        {
+                            sb.Append(vbCrLf + sShift + "\t<id>" + Cnt.ToString() + "</id>" + vbCrLf + sShift);
+                            passValue = true;
+                            Cnt++;
+                        }
 
+                        if (this.Type == "oe:DV_PARSABLE")
+                        {
+                            sb.Append(vbCrLf + sShift + "\t<value>" + Cnt.ToString() + "</value>" + vbCrLf + sShift);
+                            sb.Append(vbCrLf + sShift + "\t<formalism>Proforma</formalism>" + vbCrLf + sShift);
+                            passValue = true;
+                            Cnt++;
+                        }
                         
 
                         if (this.Type == "" && Children.Count == 0 && Choice.Count == 0)
